@@ -1,18 +1,28 @@
 name: 'List Repos'
-description: 'Lists repositories for a given organization or user'
+description: 'Search and list repositories in a GitHub organization with pattern matching, automatic pagination, and configurable output'
 inputs:
   token:
-    description: 'GitHub token with repo access'
+    description: 'GitHub token with repo read access'
     required: true
   org:
     description: 'GitHub organization name'
+    required: true
+  search:
+    description: 'Search pattern for repo names. Use "*" or "all" for all repos, a regex (e.g. "^frontend-.*"), or a simple wildcard (e.g. "api-*")'
     required: false
-  user:
-    description: 'GitHub username'
+    default: '*'
+  output-format:
+    description: 'Output format: "json" (array of owner/repo) or "text" (one owner/repo per line)'
+    required: false
+    default: 'json'
+  output-file:
+    description: 'Optional file path to write the output to'
     required: false
 outputs:
   repos:
-    description: 'JSON array of repository names'
+    description: 'The matched repositories in the chosen format'
+  count:
+    description: 'The number of matched repositories'
 runs:
   using: 'node24'
   main: 'dist/index.js'
