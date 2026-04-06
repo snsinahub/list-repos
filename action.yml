@@ -1,0 +1,18 @@
+name: 'List Repos'
+description: 'Lists repositories for a given organization or user'
+inputs:
+  token:
+    description: 'GitHub token with repo access'
+    required: true
+  org:
+    description: 'GitHub organization name'
+    required: false
+  user:
+    description: 'GitHub username'
+    required: false
+outputs:
+  repos:
+    description: 'JSON array of repository names'
+runs:
+  using: 'node24'
+  main: 'dist/index.js'
