@@ -1,0 +1,56 @@
+name: List Organization Repos
+
+on:
+  workflow_dispatch:
+    inputs:
+      org:
+        description: 'GitHub organization name'
+        required: true
+        type: string
+      search:
+        description: 'Search pattern (e.g. "*", "^api-", "*-service")'
+        required: false
+        default: '*'
+        type: string
+      output-format:
+        description: 'Output format'
+        required: false
+        default: 'json'
+        type: choice
+        options:
+          - json
+          - text
+
+jobs:
+  list-repos:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: List repos
+        id: list
+        uses: snsinahub/list-repos@v1.0.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          org: ${{ inputs.org }}
+          search: ${{ inputs.search }}
+          output-format: ${{ inputs.output-format }}
+
+      - name: Print results
+        run: |
+          echo "Found ${{ steps.list.outputs.count }} repositories"
+          echo "${{ steps.list.outputs.repos }}"
+
+      - name: Save to file
+        uses: snsinahub/list-repos@v1.0.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          org: ${{ inputs.org }}
+          search: ${{ inputs.search }}
+          output-format: json
+          output-file: repos.json
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: repo-list
+          path: repos.json

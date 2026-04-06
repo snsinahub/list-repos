@@ -1,0 +1,19 @@
+{
+  "name": "list-repos",
+  "version": "1.0.0",
+  "description": "GitHub Action to search and list repositories in a GitHub organization",
+  "main": "src/index.js",
+  "scripts": {
+    "build": "ncc build src/main.js -o dist",
+    "test": "vitest run"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@actions/core": "^2.0.3",
+    "@actions/github": "^6.0.0"
+  },
+  "devDependencies": {
+    "@vercel/ncc": "^0.38.4",
+    "vitest": "^4.1.2"
+  }
+}
